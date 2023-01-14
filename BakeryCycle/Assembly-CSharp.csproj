@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\PathCreator\Examples\Scripts\PathSpawner.cs" />
     <Compile Include="Assets\Scripts\UI_Control.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\PlayerControl.cs" />
     <Compile Include="Assets\Scripts\stack.cs" />
     <Compile Include="Assets\PathCreator\Examples\Scripts\GeneratePathExample.cs" />
@@ -65,7 +66,7 @@
     <Compile Include="Assets\PathCreator\Examples\Scripts\PathSceneTool.cs" />
     <Compile Include="Assets\PathCreator\Examples\Scripts\PathFollower.cs" />
     <Compile Include="Assets\PathCreator\Examples\Scripts\RoadMeshCreator.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Take.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
