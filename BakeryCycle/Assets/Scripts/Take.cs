@@ -8,19 +8,34 @@ using UnityEngine.UI;
 
 public class Take : MonoBehaviour
 {
-    public Image image;
+    //public Image image;
     float duration;
     public Vector3 stackpos;
-    public GameObject stackParent,takeParent;
+    public GameObject stackParent, takeParent;
     public GameObject leaven, bakery;
     public stack stacks;
-    public bool set;
+    public bool set, up;
+    public PlayerControl player;
     private void Update()
     {
+        if (up)
+        {
+            if (player.transform.GetChild(2).childCount != 0)
+            {
+                player.transform.GetChild(2).GetChild(0).transform.parent = stackParent.transform;
+                stackParent.transform.GetChild(stackParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.5f);
+            }
+            else
+            {
+                set = true;
+                up = false;
+            }
+        }
+        
         if (set)
         {
-            duration += Time.deltaTime/2;
-            image.fillAmount = duration;
+            //image.fillAmount = duration;
+            duration += Time.deltaTime / 2;
             if (duration > 1)
             {
                 duration = 0;
@@ -28,52 +43,34 @@ public class Take : MonoBehaviour
                 takeParent.transform.GetChild(takeParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.5f);
                 stackpos += new Vector3(0f, 0f, -0.5f);
             }
-            if (stackParent.transform.childCount ==0)
+            if (stackParent.transform.childCount == 0)
             {
                 duration = 0;
                 stackpos = Vector3.zero;
-                set= false;
-                image.fillAmount = 0;
+                set = false;
+                //image.fillAmount = 0;
             }
         }
-        
+
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            if (other.transform.GetChild(2).childCount != 0)//hamur býrakma ontrigger enter
-            {
-                other.transform.GetChild(2).GetChild(0).transform.parent = stackParent.transform;
-                stackParent.transform.GetChild(stackParent.transform.childCount-1).transform.DOLocalMove(stackpos, 0.5f);
-            }
-            duration += Time.deltaTime;
-            if (duration > 2)
-            {
-                duration = 0;
-                stackParent.transform.GetChild(0).transform.parent = takeParent.transform;
-                takeParent.transform.GetChild(takeParent.transform.childCount-1).transform.DOLocalMove(stackpos, 0.5f);
-                stackpos += new Vector3(0f, 0f, -0.5f);
-            }
-            if (takeParent.transform.childCount==stacks.stackList.Count)
-            {
-                duration = 0;
-                stackpos = Vector3.zero;
-            }
-
+            up = true;
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (stackParent.transform.childCount!=0)
-        {
-            set = true;
-        }
-        else
-        {
-            return;
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (stackParent.transform.childCount != 0)
+    //    {
+    //        set = true;
+    //    }
+    //    else
+    //    {
+    //        return;
+    //    }
+    //}
     //private void OnTriggerEnter(Collider other)
     //{
     //    if (other.tag == "Player")

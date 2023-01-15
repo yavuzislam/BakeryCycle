@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform[] leaven_machine;
+    private void Update()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        leaven_machine[0].Rotate(0f, 0f, 1f);
+        leaven_machine[1].Rotate(0f, 0f, 0.5f);
     }
 }
