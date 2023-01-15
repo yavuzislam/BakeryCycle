@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3900137490645924793
+--- !u!1 &3463148958242401768
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4425845252390281475}
-  - component: {fileID: 8137030871964688122}
+  - component: {fileID: 4270612072435103570}
+  - component: {fileID: 8557696585003747499}
   m_Layer: 0
   m_Name: Hamur
   m_TagString: Untagged
@@ -17,28 +17,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4425845252390281475
+--- !u!4 &4270612072435103570
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3900137490645924793}
-  m_LocalRotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
+  m_GameObject: {fileID: 3463148958242401768}
+  m_LocalRotation: {x: 0.000000077782275, y: 0.29709348, z: 0.000000024201334, w: 0.95484847}
   m_LocalPosition: {x: -4.79, y: 0.701, z: 2.67}
-  m_LocalScale: {x: 3, y: 3, z: 3}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 8.936311, y: 4.7607, z: 4.7607}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!137 &8137030871964688122
+  m_LocalEulerAnglesHint: {x: 0, y: 34.566, z: 0}
+--- !u!137 &8557696585003747499
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3900137490645924793}
+  m_GameObject: {fileID: 3463148958242401768}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
