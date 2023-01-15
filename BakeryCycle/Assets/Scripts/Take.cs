@@ -4,49 +4,104 @@ using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 using DG.Tweening;
 using static UnityEditor.Progress;
+using UnityEngine.UI;
 
 public class Take : MonoBehaviour
 {
+    public Image image;
+    float duration;
+    public Vector3 stackpos;
+    public GameObject stackParent,takeParent;
     public GameObject leaven, bakery;
     public stack stacks;
-    float duration;
+    public bool set;
+    private void Update()
+    {
+        if (set)
+        {
+            duration += Time.deltaTime/2;
+            image.fillAmount = duration;
+            if (duration > 1)
+            {
+                duration = 0;
+                stackParent.transform.GetChild(0).transform.parent = takeParent.transform;
+                takeParent.transform.GetChild(takeParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.5f);
+                stackpos += new Vector3(0f, 0f, -0.5f);
+            }
+            if (stackParent.transform.childCount ==0)
+            {
+                duration = 0;
+                stackpos = Vector3.zero;
+                set= false;
+                image.fillAmount = 0;
+            }
+        }
+        
+    }
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
         {
-            if (stacks.stackList.Count < 5)
+            if (other.transform.GetChild(2).childCount != 0)//hamur býrakma ontrigger enter
             {
+                other.transform.GetChild(2).GetChild(0).transform.parent = stackParent.transform;
+                stackParent.transform.GetChild(stackParent.transform.childCount-1).transform.DOLocalMove(stackpos, 0.5f);
             }
-        }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            foreach (var item in stacks.stackList)
+            duration += Time.deltaTime;
+            if (duration > 2)
             {
-                Destroy(item.gameObject);
+                duration = 0;
+                stackParent.transform.GetChild(0).transform.parent = takeParent.transform;
+                takeParent.transform.GetChild(takeParent.transform.childCount-1).transform.DOLocalMove(stackpos, 0.5f);
+                stackpos += new Vector3(0f, 0f, -0.5f);
             }
-            stacks.stackList.Clear();
-            InvokeRepeating("bake", 2f, 2f);
-        }
-    }
-    public void bake()
-    {
-        Debug.Log(stacks.stackList.Count);
-        float z = -0.5f;
-        GameObject bakeobje = Instantiate(leaven);
-        bakeobje.transform.position = bakery.transform.position + new Vector3(0f, 0f, z);
-        bakeobje.transform.rotation = Quaternion.Euler(bakeobje.transform.rotation.x, 5.733f, bakeobje.transform.rotation.z);
-        bakeobje.transform.parent = bakery.transform;
-        z -= 0.5f;
-        //5.733
-        stacks.stackList.Add(bakeobje);
+            if (takeParent.transform.childCount==stacks.stackList.Count)
+            {
+                duration = 0;
+                stackpos = Vector3.zero;
+            }
 
-        if (stacks.stackList.Count == 5)
-        {
-            CancelInvoke("bake");
-            stacks.stackList.Clear();
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (stackParent.transform.childCount!=0)
+        {
+            set = true;
+        }
+        else
+        {
+            return;
+        }
+    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.tag == "Player")
+    //    {
+    //        foreach (var item in stacks.stackList)
+    //        {
+    //            Destroy(item.gameObject);
+    //        }
+    //        stacks.stackList.Clear();
+    //        InvokeRepeating("bake", 2f, 2f);
+    //    }
+    //}
+    //public void bake()
+    //{
+    //    Debug.Log(stacks.stackList.Count);
+    //    float z = -0.5f;
+    //    GameObject bakeobje = Instantiate(leaven);
+    //    bakeobje.transform.position = bakery.transform.position + new Vector3(0f, 0f, z);
+    //    bakeobje.transform.rotation = Quaternion.Euler(bakeobje.transform.rotation.x, 5.733f, bakeobje.transform.rotation.z);
+    //    bakeobje.transform.parent = bakery.transform;
+    //    z -= 0.5f;
+    //    //5.733
+    //    stacks.stackList.Add(bakeobje);
+
+    //    if (stacks.stackList.Count == 5)
+    //    {
+    //        CancelInvoke("bake");
+    //        stacks.stackList.Clear();
+    //    }
+    //}
 }
