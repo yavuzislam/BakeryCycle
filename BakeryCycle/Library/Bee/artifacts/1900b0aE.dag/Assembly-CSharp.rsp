@@ -370,6 +370,7 @@
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/PlayerControl.cs"
 "Assets/Scripts/stack.cs"
+"Assets/Scripts/Stand.cs"
 "Assets/Scripts/Take.cs"
 "Assets/Scripts/UI_Control.cs"
 -langversion:9.0
