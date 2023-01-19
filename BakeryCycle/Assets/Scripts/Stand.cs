@@ -9,8 +9,8 @@ public class Stand : MonoBehaviour
 {
     public stack stack;
     int index = 0, count = 1, customer = 2;
-    public bool set, active, newpos, takestand;
-    float duration;
+    public bool set, active, newpos, takestand, last, son;
+    float duration, stand_duration;
     public GameObject stackparent;
     public Transform standPos;
     public List<Vector3> targetpos;
@@ -45,7 +45,8 @@ public class Stand : MonoBehaviour
             if (index == 0)
             {
                 for (int i = 1; i < customers.Count; i++)
-                {Debug.Log("girdi");
+                {
+                    Debug.Log("girdi");
                     customers[i].transform.DOLocalMove(targetpos[i - 1], 1f);
                 }
                 index++;
@@ -77,7 +78,7 @@ public class Stand : MonoBehaviour
                     standPos.GetChild(0).parent = customers[index].transform.GetChild(2);
                     customers[index].transform.GetChild(2).GetChild(0).DOLocalMove(customerParent, 0.1f);
                     newpos = true;
-                    customers[0].transform.DOLocalMove(customerParent, 20f);                   
+                    customers[0].transform.DOLocalMove(customerParent, 20f);
                     targetpos.Clear();
 
                 }
@@ -90,7 +91,7 @@ public class Stand : MonoBehaviour
                         customers[index].transform.GetChild(2).GetChild(0).DOLocalMove(customerParent, 0.1f);
                         newpos = true;
                         customers[index].transform.DOLocalMove(customerParent, 20f);
-                        
+
                         targetpos.Clear();
                     }
                     else
@@ -108,13 +109,35 @@ public class Stand : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        son = true;
+    }
+    private void OnTriggerStay(Collider other)
+    {
         if (other.tag == "Player")
         {
-            if (stackparent.transform.childCount!=0)
+            if (son)
+            {
+                stand_duration += Time.deltaTime;
+                if (stand_duration > 1)
+                {
+
+                    last = true;
+                    say();
+                    stand_duration = 0;
+                }
+            }
+
+        }
+    }
+    public void say()
+    {
+        if (last)
+        {
+            if (stackparent.transform.childCount != 0)
             {
                 for (int i = 0; i < stackparent.transform.childCount; i++)
                 {
-                    if (stackparent.transform.GetChild(i).tag=="bake")
+                    if (stackparent.transform.GetChild(i).tag == "bake")
                     {
                         takestand = true;
                     }
@@ -126,7 +149,8 @@ public class Stand : MonoBehaviour
                 for (int i = 0; i < count; i++)
                 {
                     stackparent.transform.GetChild(0).parent = standPos;
-                    standPos.GetChild(standPos.childCount - 1).transform.DOLocalMove(pos, 0.5f);
+                    standPos.GetChild(standPos.childCount - 1).transform.DOLocalMove(pos, 0.1f);
+                    standPos.GetChild(standPos.childCount - 1).transform.DOLocalRotate(new Vector3(1.25534427f, 174.469925f, 90.2012482f), 0.01f);
                     pos += new Vector3(0f, 0f, 0.01f);
                 }
                 if (standPos.childCount != 0)
@@ -134,7 +158,20 @@ public class Stand : MonoBehaviour
                     set = true;
                 }
             }
-            
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        last = false;
+        son = false;
+        stand_duration = 0;
+        if (stack.stackList.Count == 0)
+        {
+            for (int i = 0; i < stackparent.transform.childCount; i++)
+            {
+                stack.stackList.Add(stackparent.transform.GetChild(i).gameObject);
+            }
+            stack.stackpos = new Vector3(0f, 0.1f, 0f) * stackparent.transform.childCount;
         }
     }
 }

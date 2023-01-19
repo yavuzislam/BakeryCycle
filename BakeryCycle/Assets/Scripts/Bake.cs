@@ -7,7 +7,7 @@ public class Bake : MonoBehaviour
 {
     public Vector3 pos;
     public GameObject stackParent,takeParent;
-    //public GameObject bake_leaven;
+    public Take take;
     public stack stacks;
     bool set;
     int count, stackCount;
@@ -44,6 +44,7 @@ public class Bake : MonoBehaviour
                     stackParent.transform.GetChild(stackParent.transform.childCount - 1).DOLocalMove(pos, 0.05f);
                     pos += new Vector3(0f, 0.1f, 0f);
                 }
+                take.stackpos = Vector3.zero;
             }            
         }
     }

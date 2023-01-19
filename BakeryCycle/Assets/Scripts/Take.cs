@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class Take : MonoBehaviour
 {
     //public Image image;
+    public GameObject bakeLeaven;
     float duration,takeDuration;
     public Vector3 stackpos;
     public GameObject stackParent, takeParent;
@@ -26,7 +27,7 @@ public class Take : MonoBehaviour
                 if (player.transform.GetChild(2).childCount != 0)
                 {
                     player.transform.GetChild(2).GetChild(0).transform.parent = stackParent.transform;
-                    stackParent.transform.GetChild(stackParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.5f);
+                    stackParent.transform.GetChild(stackParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.1f);
                     stacks.stackList.Clear();
                 }
                 else
@@ -45,18 +46,16 @@ public class Take : MonoBehaviour
             {
                 duration = 0;
                 stackParent.transform.GetChild(0).tag = "bake";
+                stackParent.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material=bakeLeaven.GetComponent<SkinnedMeshRenderer>().material;
                 stackParent.transform.GetChild(0).transform.parent = takeParent.transform;
                 takeParent.transform.GetChild(takeParent.transform.childCount - 1).DOLocalRotate(new Vector3(359.746277f, 92.1784592f, 359.892303f),0.01f);
-                   // Vector3(359.746277, 92.1784592, 359.892303)
-                //takeParent.transform.GetChild(takeParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.5f);
                 takeParent.transform.GetChild(takeParent.transform.childCount - 1).transform.localPosition= stackpos;
-                //stackpos += new Vector3(0f, 0f, -0.5f);
                 stackpos += new Vector3(0f, 0.3f, 0f);
             }
             if (stackParent.transform.childCount == 0)
             {
                 //duration = 0;
-                stackpos = Vector3.zero;
+                //stackpos = Vector3.zero;
                 set = false;
                 duration = 0;
                 //image.fillAmount = 0;
@@ -68,7 +67,21 @@ public class Take : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            up = true;
+            if (other.transform.GetChild(2).childCount!=0)
+            {
+                if (other.transform.GetChild(2).GetChild(0).tag=="bake")
+                {
+                    up = false;
+                }
+                else
+                {
+                    up= true;
+                }
+            }
+            else
+            {
+                up = false;
+            }
             takeDuration = 0;
         }
     }
