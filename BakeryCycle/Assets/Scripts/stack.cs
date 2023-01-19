@@ -24,6 +24,8 @@ public class stack : MonoBehaviour
                     duration = 0;
                     stackList.Add(leaven);
                     GameObject obje = Instantiate(leaven, machin);
+                    obje.transform.localPosition = Vector3.zero;
+                    obje.transform.DOLocalRotate(new Vector3(0.122252546f, 1.87799597f, 356.276764f), 0.01f);
                     obje.transform.parent = stackparent.transform;
                     obje.transform.DOLocalMove(stackpos, 0.5f);
                     stackpos += new Vector3(0f, 0.1f, 0f);

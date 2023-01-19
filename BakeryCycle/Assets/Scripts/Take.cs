@@ -46,8 +46,12 @@ public class Take : MonoBehaviour
                 duration = 0;
                 stackParent.transform.GetChild(0).tag = "bake";
                 stackParent.transform.GetChild(0).transform.parent = takeParent.transform;
-                takeParent.transform.GetChild(takeParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.5f);
-                stackpos += new Vector3(0f, 0f, -0.5f);
+                takeParent.transform.GetChild(takeParent.transform.childCount - 1).DOLocalRotate(new Vector3(359.746277f, 92.1784592f, 359.892303f),0.01f);
+                   // Vector3(359.746277, 92.1784592, 359.892303)
+                //takeParent.transform.GetChild(takeParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.5f);
+                takeParent.transform.GetChild(takeParent.transform.childCount - 1).transform.localPosition= stackpos;
+                //stackpos += new Vector3(0f, 0f, -0.5f);
+                stackpos += new Vector3(0f, 0.3f, 0f);
             }
             if (stackParent.transform.childCount == 0)
             {
