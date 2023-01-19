@@ -9,7 +9,7 @@ public class Stand : MonoBehaviour
 {
     public stack stack;
     int index = 0, count = 1, customer = 2;
-    public bool set, active, newpos;
+    public bool set, active, newpos, takestand;
     float duration;
     public GameObject stackparent;
     public Transform standPos;
@@ -46,7 +46,7 @@ public class Stand : MonoBehaviour
             {
                 for (int i = 1; i < customers.Count; i++)
                 {Debug.Log("girdi");
-                    customers[i].transform.DOLocalMove(targetpos[i - 1], 0.5f);
+                    customers[i].transform.DOLocalMove(targetpos[i - 1], 1f);
                 }
                 index++;
                 newpos = false;
@@ -55,7 +55,7 @@ public class Stand : MonoBehaviour
             {
                 for (int i = count + 1; i < customers.Count; i++)
                 {
-                    customers[i].transform.DOLocalMove(targetpos[i - customer], 0.5f);
+                    customers[i].transform.DOLocalMove(targetpos[i - customer], 1f);
                 }
                 customer++;
                 index++;
@@ -75,7 +75,7 @@ public class Stand : MonoBehaviour
                 {
                     active = true;
                     standPos.GetChild(0).parent = customers[index].transform.GetChild(2);
-                    customers[index].transform.GetChild(2).GetChild(0).DOLocalMove(customerParent, 1.5f);
+                    customers[index].transform.GetChild(2).GetChild(0).DOLocalMove(customerParent, 0.1f);
                     newpos = true;
                     customers[0].transform.DOLocalMove(customerParent, 20f);                   
                     targetpos.Clear();
@@ -87,7 +87,7 @@ public class Stand : MonoBehaviour
                     if (standPos.childCount != 0)
                     {
                         standPos.GetChild(0).parent = customers[index].transform.GetChild(2);
-                        customers[index].transform.GetChild(2).GetChild(0).DOLocalMove(customerParent, 1.5f);
+                        customers[index].transform.GetChild(2).GetChild(0).DOLocalMove(customerParent, 0.1f);
                         newpos = true;
                         customers[index].transform.DOLocalMove(customerParent, 20f);
                         
@@ -110,17 +110,31 @@ public class Stand : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            int count = stackparent.transform.childCount;
-            for (int i = 0; i < count; i++)
+            if (stackparent.transform.childCount!=0)
             {
-                stackparent.transform.GetChild(0).parent = standPos;
-                standPos.GetChild(standPos.childCount - 1).transform.DOLocalMove(pos, 0.5f);
-                pos += new Vector3(0f, 0f, 0.01f);
+                for (int i = 0; i < stackparent.transform.childCount; i++)
+                {
+                    if (stackparent.transform.GetChild(i).tag=="bake")
+                    {
+                        takestand = true;
+                    }
+                }
             }
-            if (standPos.childCount != 0)
+            if (takestand)
             {
-                set = true;
+                int count = stackparent.transform.childCount;
+                for (int i = 0; i < count; i++)
+                {
+                    stackparent.transform.GetChild(0).parent = standPos;
+                    standPos.GetChild(standPos.childCount - 1).transform.DOLocalMove(pos, 0.5f);
+                    pos += new Vector3(0f, 0f, 0.01f);
+                }
+                if (standPos.childCount != 0)
+                {
+                    set = true;
+                }
             }
+            
         }
     }
 }

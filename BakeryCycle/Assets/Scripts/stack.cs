@@ -37,19 +37,16 @@ public class stack : MonoBehaviour
             }
         }
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.tag == "Player")
-    //    {
-    //        InvokeRepeating("StackLeaven", 1f, 1f);
-    //    }
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        duration = 0;
+    }
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
             duration = 0;
-            stackpos = Vector3.zero;
+            //stackpos = Vector3.zero;
             Debug.Log("cýkýldý");
         }
             

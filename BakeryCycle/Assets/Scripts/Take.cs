@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class Take : MonoBehaviour
 {
     //public Image image;
-    float duration;
+    float duration,takeDuration;
     public Vector3 stackpos;
     public GameObject stackParent, takeParent;
     public GameObject leaven, bakery;
@@ -20,16 +20,21 @@ public class Take : MonoBehaviour
     {
         if (up)
         {
-            if (player.transform.GetChild(2).childCount != 0)
+            takeDuration += Time.deltaTime;
+            if (takeDuration>1)
             {
-                player.transform.GetChild(2).GetChild(0).transform.parent = stackParent.transform;
-                stackParent.transform.GetChild(stackParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.5f);
-            }
-            else
-            {
-                set = true;
-                up = false;
-            }
+                if (player.transform.GetChild(2).childCount != 0)
+                {
+                    player.transform.GetChild(2).GetChild(0).transform.parent = stackParent.transform;
+                    stackParent.transform.GetChild(stackParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.5f);
+                    stacks.stackList.Clear();
+                }
+                else
+                {
+                    set = true;
+                    up = false;
+                }
+            }            
         }
         
         if (set)
@@ -39,15 +44,17 @@ public class Take : MonoBehaviour
             if (duration > 1)
             {
                 duration = 0;
+                stackParent.transform.GetChild(0).tag = "bake";
                 stackParent.transform.GetChild(0).transform.parent = takeParent.transform;
                 takeParent.transform.GetChild(takeParent.transform.childCount - 1).transform.DOLocalMove(stackpos, 0.5f);
                 stackpos += new Vector3(0f, 0f, -0.5f);
             }
             if (stackParent.transform.childCount == 0)
             {
-                duration = 0;
+                //duration = 0;
                 stackpos = Vector3.zero;
                 set = false;
+                duration = 0;
                 //image.fillAmount = 0;
             }
         }
@@ -58,6 +65,15 @@ public class Take : MonoBehaviour
         if (other.tag == "Player")
         {
             up = true;
+            takeDuration = 0;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag=="Player")
+        {
+            up = false;
+            takeDuration = 0;
         }
     }
     //private void OnTriggerExit(Collider other)
