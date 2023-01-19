@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class Take : MonoBehaviour
 {
-    //public Image image;
+    public Image image;
     public GameObject bakeLeaven;
     float duration,takeDuration;
     public Vector3 stackpos;
@@ -21,6 +21,7 @@ public class Take : MonoBehaviour
     {
         if (up)
         {
+            image.fillAmount = takeDuration;
             takeDuration += Time.deltaTime;
             if (takeDuration>1)
             {
@@ -34,13 +35,15 @@ public class Take : MonoBehaviour
                 {
                     set = true;
                     up = false;
+                    takeDuration = 0;
+                    image.fillAmount = 0;
                 }
             }            
         }
         
         if (set)
         {
-            //image.fillAmount = duration;
+            image.fillAmount = duration;
             duration += Time.deltaTime / 2;
             if (duration > 1)
             {
@@ -58,7 +61,7 @@ public class Take : MonoBehaviour
                 //stackpos = Vector3.zero;
                 set = false;
                 duration = 0;
-                //image.fillAmount = 0;
+                image.fillAmount = 0;
             }
         }
 

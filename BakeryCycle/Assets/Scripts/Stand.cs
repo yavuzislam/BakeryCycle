@@ -4,12 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Stand : MonoBehaviour
 {
+    public Image image;
     public stack stack;
     int index = 0, count = 1, customer = 2;
-    public bool set, active, newpos, takestand, last, son;
+    public bool set, active, newpos, takestand, last, son, fill;
     float duration, stand_duration;
     public GameObject stackparent;
     public Transform standPos;
@@ -68,6 +70,7 @@ public class Stand : MonoBehaviour
 
         if (set)
         {
+            image.fillAmount = duration;
             duration += Time.deltaTime / 2;
             if (duration > 1)
             {
@@ -91,7 +94,6 @@ public class Stand : MonoBehaviour
                         customers[index].transform.GetChild(2).GetChild(0).DOLocalMove(customerParent, 0.1f);
                         newpos = true;
                         customers[index].transform.DOLocalMove(customerParent, 20f);
-
                         targetpos.Clear();
                     }
                     else
@@ -99,6 +101,9 @@ public class Stand : MonoBehaviour
                         set = false;
                         stack.stackList.Clear();
                         pos = Vector3.zero;
+                        duration = 0;
+                        image.fillAmount = 0;
+
                     }
 
                 }
@@ -107,6 +112,7 @@ public class Stand : MonoBehaviour
 
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         son = true;
@@ -117,13 +123,14 @@ public class Stand : MonoBehaviour
         {
             if (son)
             {
+                image.fillAmount = stand_duration;
                 stand_duration += Time.deltaTime;
                 if (stand_duration > 1)
                 {
-
                     last = true;
                     say();
                     stand_duration = 0;
+                    image.fillAmount = 0;
                 }
             }
 
@@ -165,6 +172,7 @@ public class Stand : MonoBehaviour
         last = false;
         son = false;
         stand_duration = 0;
+        image.fillAmount = 0;
         if (stack.stackList.Count == 0)
         {
             for (int i = 0; i < stackparent.transform.childCount; i++)

@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class stack : MonoBehaviour
 {
+    public Image image;
     public GameObject stackparent;
     public Vector3 stackpos;
     public Transform machin;
@@ -21,6 +23,7 @@ public class stack : MonoBehaviour
             {
                 if (stackList.Count < 5)
                 {
+                    image.fillAmount = duration;
                     duration += Time.deltaTime;
                     if (duration > 1)
                     {
@@ -38,6 +41,7 @@ public class stack : MonoBehaviour
                 if (stackList.Count == 5)
                 {
                     duration = 0;
+                    image.fillAmount = 0;
                     stackpos = Vector3.zero;
                 }
             }
@@ -68,6 +72,7 @@ public class stack : MonoBehaviour
         if (other.tag == "Player")
         {
             duration = 0;
+            image.fillAmount = 0;
             //stackpos = Vector3.zero;
             Debug.Log("cýkýldý");
         }
